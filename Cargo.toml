@@ -1,0 +1,9 @@
+[package]
+name = "advent-of-code-2020"
+version = "0.1.0"
+authors = ["quat1024 <quat1024@users.noreply.github.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
