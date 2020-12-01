@@ -46,9 +46,10 @@ fn challenge1b() -> io::Result<()> {
     
     //TODO: This doesn't seem correct, it returns the result 3 times lol
     for (index1, n1) in numbers.iter().enumerate() {
-        for (index2, n2) in numbers[index1 + 1..].iter().enumerate() {
-            for n3 in numbers[index2 + 1..].iter() {
+        for (index2, n2) in numbers[index1..].iter().enumerate() {
+            for n3 in numbers[index2..].iter() {
                 if (n1 + n2 + n3) == 2020 {
+                    println!("{} {} {}", n1, n2, n3);
                     println!("product is {}", (n1 * n2 * n3));
                 } 
             }
