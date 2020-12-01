@@ -16,7 +16,7 @@
                     "kind": "bin"
                 }
             },
-            "args": ["1a"],
+            "args": ["1b"],
             "cwd": "${workspaceFolder}\\work"
         }
     ]
