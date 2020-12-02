@@ -72,12 +72,9 @@ impl Challenge for Original {
             .iter()
             .filter(|entry| -> bool {
                 let indexable_pass: Vec<char> = entry.pass.chars().collect();
-                #[rustfmt::skip]
-                indexable_pass.get(entry.min as usize - 1).map(|c| *c == entry.letter).unwrap()
-                    ^ indexable_pass
-                        .get(entry.max as usize - 1)
-                        .map(|c| *c == entry.letter)
-                        .unwrap()
+                #[rustfmt::skip] {
+                    indexable_pass.get(entry.min as usize - 1).map(|c| *c == entry.letter).unwrap() ^ indexable_pass.get(entry.max as usize - 1).map(|c| *c == entry.letter).unwrap()
+                }
             })
             .count();
 
