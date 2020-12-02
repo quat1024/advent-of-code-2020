@@ -55,7 +55,7 @@ struct PasswordEntry {
     pass: String
 }
 
-fn parsePasswords<C>(input: String) -> C where C: std::iter::FromIterator<PasswordEntry> {
+fn parse_passwords<C>(input: String) -> C where C: std::iter::FromIterator<PasswordEntry> {
     input.lines().map(|line| -> PasswordEntry {
         //Oh no it sucks
         let line_split: Vec<&str> = line.split(' ').collect();
@@ -71,7 +71,7 @@ fn parsePasswords<C>(input: String) -> C where C: std::iter::FromIterator<Passwo
 
 fn challenge2a() -> io::Result<()> {
     let input = fs::read_to_string("2a.txt")?;
-    let entries: Vec<PasswordEntry> = parsePasswords(input);
+    let entries: Vec<PasswordEntry> = parse_passwords(input);
     
     let count = entries.iter().filter(|entry| -> bool {
         let letter_count = entry.pass.chars().filter(|c| *c == entry.letter).count() as i32;
@@ -87,7 +87,7 @@ fn challenge2a() -> io::Result<()> {
 //wrong: 423 (off by two)
 fn challenge2b() -> io::Result<()> {
     let input = fs::read_to_string("2a.txt")?;
-    let entries: Vec<PasswordEntry> = parsePasswords(input);
+    let entries: Vec<PasswordEntry> = parse_passwords(input);
     
     let count = entries.iter().filter(|entry| -> bool {
         let indexable_pass: Vec<char> = entry.pass.chars().collect();
