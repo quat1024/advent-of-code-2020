@@ -44,3 +44,9 @@ fn challenge1b() -> io::Result<()> {
     
     Ok(())
 }
+
+fn challenge2a() -> io::Result<()> {
+    
+    
+    Ok(())
+}
