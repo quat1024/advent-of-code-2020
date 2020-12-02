@@ -17,6 +17,7 @@
                 }
             },
             "args": ["1b"],
+            "sourceLanguages": [ "rust" ],
             "cwd": "${workspaceFolder}\\work"
         }
     ]

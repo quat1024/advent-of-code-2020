@@ -1,4 +1,4 @@
-use std::*;
+use std::{io, env, fs};
 
 fn main() -> io::Result<()> {
     //i will organize this better later shhhhHHH
@@ -13,14 +13,7 @@ fn main() -> io::Result<()> {
 }
 
 fn challenge1a() -> io::Result<()> {
-    //Load file
-    let file_string = fs::read_to_string("1a.txt")?;
-    
-    //Parse file
-    let numbers: Vec<i32> = file_string
-        .split_whitespace()
-        .filter_map(|s| s.parse::<i32>().ok())
-        .collect();
+    let numbers: Vec<i32> = fs::read_to_string("1a.txt")?.split_whitespace().filter_map(|s| s.parse::<i32>().ok()).collect();
     
     //Solve challenge
     for (index, n1) in numbers.iter().enumerate() {
@@ -35,14 +28,7 @@ fn challenge1a() -> io::Result<()> {
 }
 
 fn challenge1b() -> io::Result<()> {
-    //Load file
-    let file_string = fs::read_to_string("1a.txt")?;
-    
-    //Parse file
-    let numbers: Vec<i32> = file_string
-        .split_whitespace()
-        .filter_map(|s| s.parse::<i32>().ok())
-        .collect();
+    let numbers: Vec<i32> = fs::read_to_string("1a.txt")?.split_whitespace().filter_map(|s| s.parse::<i32>().ok()).collect();
     
     //TODO: This doesn't seem correct, it returns the result 3 times lol
     for (index1, n1) in numbers.iter().enumerate() {
