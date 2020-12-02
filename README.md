@@ -12,13 +12,13 @@ This is supposed to hold my solutions to [alexandria ocasio cortez 2020](https:/
 
 ## Usage
 
-Proper usage is "looking at it", you probably won't need to actually run these yourself lol. If you do want to run it, pass an argument such as `1b` for day 1 part b.
+Proper usage is "looking at it", you probably won't need to actually run these yourself lol. If you do want to run it, pass the number of the day you wanna runas an argument. If you don't pass anything it will use today's date (and probably index out of bounds and panic)
 
 Note that the cwd is changed to the "work" directory in my launch.json, so I think by default with `cargo run` it won't be able to find input files. I might change this.
 
 ## TODO
 
-* Clean things up a bit more (some kind of Challenge struct?)
-* Look into Rust libraries and tools that will help me out (parsing, errors, iteration...)
-* Write tests that run all the challenges and compare them against their expected results
-* Write new solutions in idiomatic Rust, and test that they are identical to the midnight brainfart ones
+- [x] Clean things up a bit more (some kind of Challenge struct?)
+- [ ] Look into Rust libraries and tools that will help me out (parsing, errors, iteration...)
+- [ ] Write tests that run all the challenges and compare them against their expected results
+- [ ] Write new solutions in idiomatic Rust, and test that they are identical to the midnight brainfart ones
