@@ -13,6 +13,23 @@ impl Map {
         let row = self.trees.get(row)?;
         Some(row[column % row.len()])
     }
+    
+    fn count_along_slope(&self, rowd: usize, cold: usize) -> usize {
+        //This smells like something an iterator can do better, lol
+        let mut tree_count = 0;
+        let mut row = 0;
+        let mut col = 0;
+        
+        let mut op: Option<Entry> = Some(Entry::Air);
+        while let Some(e) = op {
+            if e == Entry::Tree { tree_count += 1; }
+            row += rowd;
+            col += cold;
+            op = self.get(row, col);
+        }
+        
+        tree_count
+    }
 }
 
 //TODO this is WRONG, use TryFrom
@@ -47,25 +64,12 @@ impl Challenge for Original {
     }
 
     fn part_a(&self, input: String) -> Result<String, ChallengeErr> {
-        let map: Map = input.into(); //todo tryInto
-        
-        //This smells like something an iterator can do better, lol
-        let mut tree_count = 0;
-        let mut row = 0;
-        let mut col = 0;
-        
-        let mut op: Option<Entry> = Some(Entry::Air);
-        while let Some(e) = op {
-            if e == Entry::Tree { tree_count += 1; }
-            row += 1;
-            col += 3;
-            op = map.get(row, col);
-        }
-        
-        Ok(tree_count.to_string())
+        Ok(Map::from(input).count_along_slope(1, 3).to_string())
     }
 
-    fn part_b(&self, _input: String) -> Result<String, ChallengeErr> {
-        Err(ChallengeErr::NotYetImplemented())
+    fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
+        let map: Map = input.into();
+        
+        Ok([(1, 1), (1, 3), (1, 5), (1, 7), (2, 1)].iter().map(|(rowd, cold)| map.count_along_slope(*rowd, *cold)).product::<usize>().to_string())
     }
 }
