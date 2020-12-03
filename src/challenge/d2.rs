@@ -43,10 +43,9 @@ where
         .collect()
 }
 
-//It's not really the "original" solution, i ended up retrofitting it a bit with the Challenge abstraction framework
-pub struct Original;
+pub struct Challenge2;
 
-impl Challenge for Original {
+impl Challenge for Challenge2 {
     fn filename(&self) -> &'static str {
         "2a.txt"
     }

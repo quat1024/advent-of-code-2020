@@ -9,9 +9,9 @@ mod challenge;
 fn main() -> Result<(), ChallengeErr> {
     //TODO can i make this static at all
     let challenges: Vec<Box<dyn Challenge>> = vec![
-        Box::new(d1::Original),
-        Box::new(d2::Original),
-        Box::new(d3::Original),
+        Box::new(d1::Challenge1),
+        Box::new(d2::Challenge2),
+        Box::new(d3::Challenge3),
     ];
 
     let challenge_num = env::args()
@@ -42,6 +42,7 @@ pub enum ChallengeErr {
     Io(io::Error),
     NotYetImplemented(),
     NoSolution(String),
+    Unspecified(String), //Mom can i have extensible errors? We have extensible errors at home
 }
 
 impl From<io::Error> for ChallengeErr {

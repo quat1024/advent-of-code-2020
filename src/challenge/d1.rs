@@ -1,8 +1,8 @@
 use crate::*;
 
-pub struct Original;
+pub struct Challenge1;
 
-impl Challenge for Original {
+impl Challenge for Challenge1 {
     fn filename(&self) -> &'static str {
         "1a.txt"
     }

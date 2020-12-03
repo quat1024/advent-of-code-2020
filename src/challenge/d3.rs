@@ -1,8 +1,8 @@
-use std::convert::TryFrom;
+use std::convert::{TryFrom, TryInto};
 
 use crate::*;
 
-pub struct Original;
+pub struct Challenge3;
 
 struct Map {
     trees: Vec<Vec<Entry>>, //row-major; are there any better structures available? (yes)
@@ -34,15 +34,25 @@ impl Map {
     }
 }
 
-//TODO this is WRONG, use TryFrom
-impl From<String> for Map {
-    fn from(input: String) -> Self {
-        Map {
-            trees: input
-                .lines()
-                .map(|x| x.chars().map(|c| Entry::from(c)).collect())
-                .collect(),
+impl TryFrom<String> for Map {
+    type Error = ChallengeErr;
+
+    fn try_from(input: String) -> Result<Self, Self::Error> {
+        //TODO: This feels like something that can start with "input.lines().iter()"
+        //However Entry being TryFrom makes it hard. I need the error to bubble up
+
+        let mut rows: Vec<Vec<Entry>> = Vec::new();
+        for line in input.lines() {
+            let mut row: Vec<Entry> = Vec::new();
+
+            for c in line.chars() {
+                row.push(Entry::try_from(c)?); // ?
+            }
+
+            rows.push(row);
         }
+
+        Ok(Map { trees: rows })
     }
 }
 
@@ -52,28 +62,31 @@ enum Entry {
     Tree,
 }
 
-//TODO this is WRONG, use TryFrom
-impl From<char> for Entry {
-    fn from(c: char) -> Self {
+impl TryFrom<char> for Entry {
+    type Error = ChallengeErr;
+
+    fn try_from(c: char) -> Result<Self, Self::Error> {
         match c {
-            '.' => Entry::Air,
-            '#' => Entry::Tree,
-            etc => panic!("we have TryFrom at home... unknown char {}", etc),
+            '.' => Ok(Entry::Air),
+            '#' => Ok(Entry::Tree),
+            etc => Err(ChallengeErr::Unspecified(
+                format!("unknown character {}", etc).into(),
+            )),
         }
     }
 }
 
-impl Challenge for Original {
+impl Challenge for Challenge3 {
     fn filename(&self) -> &'static str {
         "3a.txt"
     }
 
     fn part_a(&self, input: String) -> Result<String, ChallengeErr> {
-        Ok(Map::from(input).count_along_slope(1, 3).to_string())
+        Ok(Map::try_from(input)?.count_along_slope(1, 3).to_string())
     }
 
     fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
-        let map: Map = input.into();
+        let map: Map = input.try_into()?;
 
         Ok([(1, 1), (1, 3), (1, 5), (1, 7), (2, 1)]
             .iter()
