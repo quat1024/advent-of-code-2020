@@ -2,7 +2,7 @@
 
 use challenge::*;
 use chrono::prelude::*;
-use std::{env, fs, io};
+use std::{env, fs, io, path::PathBuf};
 
 mod challenge;
 
@@ -21,7 +21,10 @@ fn main() -> Result<(), ChallengeErr> {
     let challenge_num = challenge_num - 1; //zero-index it
 
     let challenge = &challenges[challenge_num];
-    let file = fs::read_to_string(challenge.filename()).expect("Unable to read input file");
+    let mut path = env::current_dir()?;
+    path.push(["work", challenge.filename()].iter().collect::<PathBuf>());
+    println!("{:?}", path);
+    let file = fs::read_to_string(path).expect("Unable to read input file");
 
     //This output could be much, much better
     println!("{:?}", challenge.part_a(file.clone()));
