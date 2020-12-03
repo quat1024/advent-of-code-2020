@@ -8,7 +8,7 @@ mod challenge;
 
 fn main() -> Result<(), ChallengeErr> {
     //TODO can i make this static at all
-    let challenges: Vec<Box<dyn Challenge>> = vec![Box::new(d1::Original), Box::new(d2::Original)];
+    let challenges: Vec<Box<dyn Challenge>> = vec![Box::new(d1::Original), Box::new(d2::Original), Box::new(d3::Original)];
 
     let challenge_num = env::args()
         .nth(1)
