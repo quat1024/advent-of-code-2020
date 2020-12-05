@@ -70,13 +70,34 @@ impl Challenge for Challenge5 {
     //Wrong: 749
     fn part_a(&self, input: String) -> Result<String, ChallengeErr> {
         //TODO wrong way to do error handling lol
+        //i know there's something about vec of results -> result of vecs but i couldnt get it working
         let seats: Vec<Seat> = input.lines().map(|line| Seat::from_str(line).expect("uh oh")).collect();
         
         seats.iter().map(Seat::id).max().ok_or_else(|| ChallengeErr::Unspecified("no seats lol".into())).map(|u| u.to_string())
     }
 
     fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
-        Err(ChallengeErr::NotYetImplemented())
+        //For some reason rust-analyzer is very very confused by this code if i do not fully qualify HashMap? maybe a bug
+        //use std::collections::HashMap;
+        
+        let seats: Vec<Seat> = input.lines().map(|line| Seat::from_str(line).expect("uh oh")).collect();
+        let seats_by_id: std::collections::HashMap<usize, Seat> = seats.into_iter().map(|seat| (seat.id(), seat)).collect();
+        let max_id = seats_by_id.keys().max().expect("no seats lol");
+        
+        //This is not particularly pretty but works.
+        //Not sure why i have to borrow a bajillion times
+        for i in 0..=max_id - 3 {
+            if seats_by_id.contains_key(&i) && !seats_by_id.contains_key(&(i + 1)) && seats_by_id.contains_key(&(i + 2)) {
+                println!("candidate: {}", i + 1);
+            }
+        }
+        
+        //Also it's written with a println cuz the question says that my seat is "not at the very front or back"
+        //and i took that to mean "not the first or last row", which would mean i'd have to filter those out
+        //(and i wanted to just eyeball it instead of actually writing a filterer)
+        //but I think it actually meant that it would not be seat 0 or seat max
+        
+        Ok("egg".into())
     }
 }
 

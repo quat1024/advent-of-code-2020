@@ -1,4 +1,4 @@
-#![feature(stmt_expr_attributes)]
+#![feature(stmt_expr_attributes, array_windows)]
 
 use challenge::*;
 use chrono::prelude::*;
