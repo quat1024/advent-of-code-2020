@@ -35,15 +35,12 @@ impl Challenge for Challenge6 {
                 }
 
                 let people: Vec<&str> = group.collect();
-                let mut count = 0;
-
-                for c in 'a'..='z' {
-                    if people.iter().all(|s| s.contains(c)) {
-                        count += 1;
-                    }
-                }
-
-                Some(count)
+                Some(
+                    ('a'..='z')
+                        .into_iter()
+                        .filter(|c| people.iter().all(|s| s.contains(*c)))
+                        .count(),
+                )
             })
             .sum::<usize>()
             .to_string())
