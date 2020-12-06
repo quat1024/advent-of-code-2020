@@ -18,7 +18,22 @@ impl Challenge for Challenge6 {
         }).sum::<usize>().to_string())
     }
 
-    fn part_b(&self, _input: String) -> Result<String, ChallengeErr> {
-        Err(ChallengeErr::NotYetImplemented())
+    fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
+        Ok(input.lines().group_by(|line| line.trim().is_empty()).into_iter().filter_map(|(blank, group)| -> Option<usize> {
+            if blank {
+                return None;
+            }
+            
+            let people: Vec<&str> = group.collect();
+            let mut count = 0;
+            
+            for c in 'a'..='z' {
+               if people.iter().all(|s| s.contains(c)) {
+                   count += 1;
+               } 
+            }
+            
+            Some(count)
+        }).sum::<usize>().to_string())
     }
 }
