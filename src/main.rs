@@ -4,6 +4,9 @@ use challenge::*;
 use chrono::prelude::*;
 use std::{env, fs, io, path::PathBuf};
 
+#[macro_use]
+extern crate lazy_static;
+
 mod challenge;
 
 fn main() -> Result<(), ChallengeErr> {
