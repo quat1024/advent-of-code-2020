@@ -1,5 +1,5 @@
 use std::str::FromStr;
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 
 use crate::*;
 use regex::Regex;
@@ -98,7 +98,40 @@ impl Challenge for Challenge7 {
         Ok(found.len().to_string())
     }
 
-    fn part_b(&self, _input: String) -> Result<String, ChallengeErr> {
-        Err(ChallengeErr::NotYetImplemented())
+    fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
+        let rules: HashMap<String, _> = input
+            .lines()
+            .map(|s| Rule::from_str(&s).unwrap())
+            .map(|r| (r.name.clone(), r)) //WHEN IN DOUBT JUST CLONE EVERYTHING
+            .collect();
+            
+        let mut cache: HashMap<String, usize> = HashMap::new();
+        
+        Ok(count_bags_inside(&rules, &mut cache, "shiny gold".into()).to_string())
+    }
+}
+
+fn count_bags_inside(rules: &HashMap<String, Rule>, cache: &mut HashMap<String, usize>, bag: String) -> usize {
+    if cache.contains_key(&bag) {
+        return *cache.get(&bag).unwrap();
+    }
+    
+    println!("looking up {}", bag);
+    
+    let entry = rules.get(&bag);
+    match entry {
+        None => {
+            println!("unknown bag {}", bag);
+            return 0
+        },
+        Some(rule) => {
+            let mut sum = 0;
+            for contents_rule in rule.contents.iter() {
+               sum += contents_rule.qty * (1 + count_bags_inside(rules, cache, contents_rule.color.clone()))
+            }
+            println!("{} can hold {}", bag, sum);
+            cache.insert(bag, sum);
+            sum
+        }
     }
 }
