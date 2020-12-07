@@ -2,14 +2,8 @@ use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
 
 use crate::*;
-use regex::Regex;
 
 pub struct Challenge7;
-
-lazy_static! {
-    static ref BAG_NAME_REGEX: Regex = Regex::new(r"[a-z]+ [a-z]+").unwrap();
-}
-
 struct Rule {
     name: String,
     contents: Vec<ContentsRule>,
