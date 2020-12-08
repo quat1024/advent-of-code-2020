@@ -138,10 +138,10 @@ impl Challenge for Challenge8 {
             computer.reset();
             computer.opcodes = new_insns;
 
-            let mut tries = 0;
-            while tries < 100000 && !computer.is_halted() {
+            //let mut tries = 0;
+            while !computer.has_been_here() && !computer.is_halted() {
                 computer.step();
-                tries += 1;
+                //tries += 1;
             }
 
             if computer.is_halted() {
