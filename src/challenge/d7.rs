@@ -126,7 +126,8 @@ fn count_bags_inside(
             let mut sum = 0;
             for contents_rule in rule.contents.iter() {
                 sum += contents_rule.qty
-                    * (1 + count_bags_inside(rules, cache, contents_rule.color.clone())) //WHEN IN DOUBT JUST CLONE EVERYTHING
+                    * (1 + count_bags_inside(rules, cache, contents_rule.color.clone()))
+                //WHEN IN DOUBT JUST CLONE EVERYTHING
             }
             println!("{} can hold {}", bag, sum);
             cache.insert(bag, sum);
