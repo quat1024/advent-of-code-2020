@@ -13,6 +13,8 @@ This is supposed to hold my solutions to [alexandria ocasio cortez 2020](https:/
 * day 4: parts A and B
 * day 5: parts A and B
 * day 6: parts A and B
+* day 7: parts A and B
+* day 8: parts A and B
 
 ## Usage
 
