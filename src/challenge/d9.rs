@@ -42,11 +42,11 @@ impl Challenge for Challenge9 {
             .collect::<Vec<_>>();
 
         let range_bounds = find_range_bounds(&input, target);
-        
+
         let smallest = input[range_bounds.0..=range_bounds.1].iter().min().unwrap();
         let largest = input[range_bounds.0..=range_bounds.1].iter().max().unwrap();
         return Ok((smallest + largest).to_string());
-        
+
         //unimplemented!()
     }
 }
@@ -65,6 +65,6 @@ fn find_range_bounds(input: &Vec<usize>, target: usize) -> (usize, usize) {
         }
         start += 1;
     }
-    
+
     unimplemented!()
 }
