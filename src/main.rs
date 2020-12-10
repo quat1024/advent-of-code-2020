@@ -21,6 +21,7 @@ fn main() -> Result<(), ChallengeErr> {
         Box::new(d7::Challenge7),
         Box::new(d8::Challenge8),
         Box::new(d9::Challenge9),
+        Box::new(d10::Challenge10),
     ];
 
     let challenge_num = env::args()
