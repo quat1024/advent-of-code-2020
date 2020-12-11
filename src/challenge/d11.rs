@@ -18,6 +18,17 @@ struct Board {
     height: usize,
 }
 
+static ADJACENCY: [(isize, isize); 8] = [
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, -1),
+    (0, 1),
+    (1, -1),
+    (1, 0),
+    (1, 1),
+];
+
 impl Board {
     fn from_string(input: String) -> Board {
         let tiles = input
@@ -46,17 +57,6 @@ impl Board {
     }
 
     fn step(&mut self) -> bool {
-        static ADJACENCY: [(isize, isize); 8] = [
-            (-1, -1),
-            (-1, 0),
-            (-1, 1),
-            (0, -1),
-            (0, 1),
-            (1, -1),
-            (1, 0),
-            (1, 1),
-        ];
-
         let mut new_tiles = self.tiles.clone();
         let mut changed_anything = false;
 
@@ -95,6 +95,70 @@ impl Board {
                 }
 
                 if here == Tile::OccupiedSeat && occupied_count >= 4 {
+                    new_tiles[row][col] = Tile::EmptySeat;
+                    changed_anything = true;
+                    continue;
+                }
+            }
+        }
+
+        self.tiles = new_tiles;
+        changed_anything
+    }
+
+    fn step_2(&mut self) -> bool {
+        let mut new_tiles = self.tiles.clone();
+        let mut changed_anything = false;
+
+        for row in 0..self.height {
+            for col in 0..self.width {
+                let here = self.tiles[row][col];
+
+                if here == Tile::Floor {
+                    continue;
+                }
+
+                let neighborhood: Vec<Tile> = ADJACENCY
+                    .iter()
+                    .map(|&(drow, dcol)| -> Option<Tile> {
+                        let mut cur_row = row as isize + drow;
+                        let mut cur_col = col as isize + dcol;
+
+                        loop {
+                            if cur_row < 0
+                                || cur_row >= self.height as isize
+                                || cur_col < 0
+                                || cur_col >= self.width as isize
+                            {
+                                return None;
+                            }
+
+                            match self.tiles[cur_row as usize][cur_col as usize] {
+                                Tile::Floor => {
+                                    cur_row += drow;
+                                    cur_col += dcol;
+                                    continue;
+                                }
+                                etc => return Some(etc),
+                            }
+                        }
+                    })
+                    .filter(Option::is_some)
+                    .map(Option::unwrap)
+                    .collect();
+
+                let occupied_count = neighborhood
+                    .iter()
+                    .filter(|&&t| t == Tile::OccupiedSeat)
+                    .count();
+
+                if here == Tile::EmptySeat && occupied_count == 0 {
+                    new_tiles[row][col] = Tile::OccupiedSeat;
+                    changed_anything = true;
+                    continue;
+                }
+
+                if here == Tile::OccupiedSeat && occupied_count >= 5 {
                     new_tiles[row][col] = Tile::EmptySeat;
                     changed_anything = true;
                     continue;
@@ -145,11 +209,17 @@ impl Challenge for Challenge11 {
         let mut b = Board::from_string(input);
 
         while let true = b.step() {}
+        b.print();
 
         Ok(b.count_occupied().to_string())
     }
 
-    fn part_b(&self, _input: String) -> Result<String, ChallengeErr> {
-        Err(ChallengeErr::NotYetImplemented())
+    fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
+        let mut b = Board::from_string(input);
+
+        while let true = b.step_2() {}
+        b.print();
+
+        Ok(b.count_occupied().to_string())
     }
 }
