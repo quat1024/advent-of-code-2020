@@ -1,6 +1,6 @@
 use crate::*;
 
-use itertools::Itertools;
+//use itertools::Itertools;
 use std::collections::HashSet;
 
 pub struct Challenge9;
@@ -65,6 +65,4 @@ fn find_range_bounds(input: &Vec<usize>, target: usize) -> (usize, usize) {
         }
         start += 1;
     }
-
-    unimplemented!()
 }

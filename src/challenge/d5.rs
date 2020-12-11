@@ -128,16 +128,16 @@ impl Challenge for Challenge5 {
 }
 
 mod test {
-    use super::*;
-
     #[test]
     fn bisecting_works() {
+        use crate::challenge::d5::*;
         assert_eq!(bisect_range(&(0..=127), true), 0..=63);
         assert_eq!(bisect_range(&(0..=127), false), 64..=127);
     }
 
     #[test]
     fn examples() {
+        use crate::challenge::d5::*;
         assert_eq!(Seat::from_str("BFFFBBFRRR").unwrap().id(), 567);
         assert_eq!(Seat::from_str("FFFBBBFRRR").unwrap().id(), 119);
         assert_eq!(Seat::from_str("BBFFBBFRLL").unwrap().id(), 820);

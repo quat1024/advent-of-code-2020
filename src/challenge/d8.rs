@@ -14,9 +14,9 @@ enum Opcode {
 impl Opcode {
     fn flip(&mut self) {
         *self = match self {
-            Opcode::Acc(mut a) => Opcode::Acc(a),
-            Opcode::Nop(mut a) => Opcode::Jmp(a),
-            Opcode::Jmp(mut a) => Opcode::Nop(a),
+            Opcode::Acc(a) => Opcode::Acc(*a),
+            Opcode::Nop(a) => Opcode::Jmp(*a),
+            Opcode::Jmp(a) => Opcode::Nop(*a),
         }
     }
 }
