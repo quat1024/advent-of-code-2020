@@ -10,8 +10,13 @@ impl Challenge for Challenge13 {
     fn part_a(&self, input: String) -> Result<String, ChallengeErr> {
         let mut lines = input.lines();
         let now: usize = lines.next().unwrap().parse().unwrap();
-        let buses: Vec<usize> = lines.next().unwrap().split(',').filter_map(|f| f.parse().ok()).collect();
-        
+        let buses: Vec<usize> = lines
+            .next()
+            .unwrap()
+            .split(',')
+            .filter_map(|f| f.parse().ok())
+            .collect();
+
         //There's probably a nice way to do this but brain fried rn
         let mut when = now;
         loop {
