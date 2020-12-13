@@ -49,29 +49,38 @@ impl Challenge for Challenge13 {
                 })
             })
             .collect();
-        
+
         constraints.sort_by_key(|t| t.interval);
         constraints.reverse();
-        
+
         //Ok, time to do the Chinese Remainder Theorem.
         //It "just so happens" that all the input values are prime numbers, wonder why that is :thinking:
-        
+
         //Per https://brilliant.org/wiki/chinese-remainder-theorem/
         let big_n = constraints.iter().map(|bus| bus.interval).product::<i128>();
-        
-        let x: i128 = constraints.iter().map(|bus| -> i128 {
-            let yi = big_n / bus.interval;
-            assert_eq!(yi * bus.interval, big_n);
-            
-            let zi = modular_inverse(yi, bus.interval).unwrap();
-            
-            (bus.interval - bus.offset) * yi * zi
-        }).sum::<i128>() % big_n;
-        
+
+        let x: i128 = constraints
+            .iter()
+            .map(|bus| -> i128 {
+                let yi = big_n / bus.interval;
+                assert_eq!(yi * bus.interval, big_n);
+
+                let zi = modular_inverse(yi, bus.interval).unwrap();
+
+                (bus.interval - bus.offset) * yi * zi
+            })
+            .sum::<i128>()
+            % big_n;
+
         println!("{}", x);
-        
+
         for bus in constraints.iter() {
-            println!("x mod {} === {} (expected {})", bus.interval, x % bus.interval, bus.interval - bus.offset);
+            println!(
+                "x mod {} === {} (expected {})",
+                bus.interval,
+                x % bus.interval,
+                bus.interval - bus.offset
+            );
         }
 
         Ok(x.to_string())
@@ -86,13 +95,13 @@ fn modular_inverse(number: i128, modulus: i128) -> Option<i128> {
             return Some(i);
         }
     }
-    
+
     None
 }
 
 mod test {
     use crate::challenge::d13::*;
-    
+
     #[test]
     fn modular_inverse_works() {
         assert_eq!(modular_inverse(1, 4), Some(1));
