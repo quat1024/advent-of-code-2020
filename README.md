@@ -15,6 +15,11 @@ This is supposed to hold my solutions to [alexandria ocasio cortez 2020](https:/
 * day 6: parts A and B
 * day 7: parts A and B
 * day 8: parts A and B
+* day 9: parts A and B
+* day 10: parts A and B
+* day 11: parts A and B
+* day 12: parts A and B
+* day 13: part A. Part B does not give the correct answer
 
 ## Usage
 
