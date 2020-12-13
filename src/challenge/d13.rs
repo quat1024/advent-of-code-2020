@@ -65,16 +65,16 @@ impl Challenge for Challenge13 {
             
             let zi = modular_inverse(yi, bus.interval).unwrap();
             
-            bus.offset * yi * zi
+            (bus.interval - bus.offset) * yi * zi
         }).sum::<i128>() % big_n;
         
         println!("{}", x);
         
         for bus in constraints.iter() {
-            println!("x mod {} === {} (expected {})", bus.interval, x % bus.interval, bus.offset);
+            println!("x mod {} === {} (expected {})", bus.interval, x % bus.interval, bus.interval - bus.offset);
         }
 
-        Err(ChallengeErr::NotYetImplemented())
+        Ok(x.to_string())
     }
 }
 
