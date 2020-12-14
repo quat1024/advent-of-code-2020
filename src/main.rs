@@ -10,7 +10,6 @@ use std::{env, fs, io, path::PathBuf};
 mod challenge;
 
 fn main() -> Result<(), ChallengeErr> {
-    //TODO can i make this static at all
     let challenges: Vec<Box<dyn Challenge>> = vec![
         Box::new(d1::Challenge1),
         Box::new(d2::Challenge2),
@@ -25,6 +24,7 @@ fn main() -> Result<(), ChallengeErr> {
         Box::new(d11::Challenge11),
         Box::new(d12::Challenge12),
         Box::new(d13::Challenge13),
+        Box::new(d14::Challenge14),
     ];
 
     let challenge_num = env::args()
