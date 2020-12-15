@@ -21,6 +21,7 @@ This is supposed to hold my solutions to [alexandria ocasio cortez 2020](https:/
 * day 12: parts A and B
 * day 13: parts A and B
 * day 14: part A, part B is not finished
+* day 15: parts A and B
 
 ## Usage
 
