@@ -1,5 +1,5 @@
-use std::collections::VecDeque;
 use itertools::Itertools;
+use std::collections::{HashMap, VecDeque};
 
 use crate::*;
 
@@ -13,9 +13,8 @@ impl Challenge for Challenge15 {
     fn part_a(&self, input: String) -> Result<String, ChallengeErr> {
         let mut numbers: VecDeque<u64> = VecDeque::new();
         numbers.extend(input.split(',').map(|x| x.parse::<u64>().unwrap()));
-        println!("{:?}", numbers);
         let count = numbers.len();
-        
+
         for _ in count..2020 {
             let last = numbers.back().unwrap();
             if let Some((dist, _)) = numbers.iter().rev().skip(1).find_position(|&x| x == last) {
@@ -23,14 +22,41 @@ impl Challenge for Challenge15 {
             } else {
                 numbers.push_back(0);
             }
-            
-            println!("pushed {}", numbers.back().unwrap());
         }
-        
+
         Ok(numbers.back().unwrap().to_string())
     }
 
-    fn part_b(&self, _input: String) -> Result<String, ChallengeErr> {
-        Err(ChallengeErr::NotYetImplemented())
+    //wrong: 17
+    fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
+        let mut numbers: VecDeque<u64> = VecDeque::new();
+        let mut seen_numbers: HashMap<u64, usize> = HashMap::new();
+
+        numbers.extend(input.split(',').map(|x| x.parse::<u64>().unwrap()));
+
+        for i in 0..(numbers.len() - 1) {
+            seen_numbers.insert(numbers[i], i + 1);
+        }
+
+        let count = numbers.len();
+
+        let mut last_pushed = *numbers.back().unwrap();
+
+        for step in count..30_000_000 {
+            if !seen_numbers.contains_key(&last_pushed) {
+                seen_numbers.insert(last_pushed, step);
+                last_pushed = 0;
+            } else {
+                let when_seen = seen_numbers.get(&last_pushed).unwrap().clone();
+                seen_numbers.insert(last_pushed, step);
+                last_pushed = (step - when_seen) as u64;
+            }
+
+            if step % 1_000_000 == 0 {
+                println!("on step {}", step);
+            }
+        }
+
+        Ok(last_pushed.to_string())
     }
 }
