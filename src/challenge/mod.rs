@@ -6,6 +6,7 @@ pub mod d13;
 pub mod d14;
 pub mod d15;
 pub mod d2;
+pub mod d25;
 pub mod d3;
 pub mod d4;
 pub mod d5;
