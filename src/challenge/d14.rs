@@ -51,7 +51,7 @@ impl Challenge for Challenge14 {
 
     fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
         let mut mem: HashMap<u64, u64> = HashMap::new();
-        
+
         let mut masks: Vec<u64> = Vec::new();
         let mut mask_show_through: u64 = 0;
 
@@ -61,24 +61,23 @@ impl Challenge for Challenge14 {
                 masks.clear();
                 masks.push(0);
                 mask_show_through = 0;
-                
+
                 for char_idx in 0..=35 {
                     let ch = chars[char_idx];
                     let bit = (1 << 35) >> char_idx;
                     match ch {
                         '0' => (),
                         '1' => masks.iter_mut().for_each(|m| *m |= bit),
-                        'X' => {    
+                        'X' => {
                             let mut masks_copy = masks.clone();
                             masks_copy.iter_mut().for_each(|m| *m |= bit);
                             masks.extend(masks_copy);
-                            
+
                             mask_show_through |= bit;
-                        },
-                        _ => panic!()
+                        }
+                        _ => panic!(),
                     }
                 }
-                
             } else if let Some(rest) = line.strip_prefix("mem[") {
                 let mut split = rest.split("] = ");
                 let base_addr = split.next().unwrap().parse::<u64>().unwrap();
@@ -89,7 +88,7 @@ impl Challenge for Challenge14 {
                     let a = mask & mask_show_through;
                     let b = (mask | base_addr) & !(mask_show_through);
                     let masked_addr = a | b;
-                    
+
                     //println!("masked:    {:#036b}, ({})", masked_addr, masked_addr);
                     mem.insert(masked_addr, value);
                 }
