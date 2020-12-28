@@ -100,14 +100,12 @@ fn modular_inverse(number: i128, modulus: i128) -> Option<i128> {
 }
 
 mod test {
-    use crate::challenge::d13::*;
-
     #[test]
     fn modular_inverse_works() {
-        assert_eq!(modular_inverse(1, 4), Some(1));
-        assert_eq!(modular_inverse(2, 4), None);
-        assert_eq!(modular_inverse(3, 4), Some(3));
-        assert_eq!(modular_inverse(6, 59), Some(10));
-        assert_eq!(modular_inverse(80, 59), Some(45));
+        assert_eq!(super::modular_inverse(1, 4), Some(1));
+        assert_eq!(super::modular_inverse(2, 4), None);
+        assert_eq!(super::modular_inverse(3, 4), Some(3));
+        assert_eq!(super::modular_inverse(6, 59), Some(10));
+        assert_eq!(super::modular_inverse(80, 59), Some(45));
     }
 }

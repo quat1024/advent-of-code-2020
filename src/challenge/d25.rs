@@ -51,7 +51,7 @@ fn bruteforce_loop_size(subject: u64, public: u64) -> u64 {
 
 fn bruteforce_forwards_work(subject: u64, loop_size: u64) -> u64 {
     let mut value = subject;
-    for i in 1..loop_size {
+    for _ in 1..loop_size {
         value *= subject;
         value %= 20201227;
     }
