@@ -22,7 +22,7 @@ This is supposed to hold my solutions to [alexandria ocasio cortez 2020](https:/
 * day 13: parts A and B
 * day 14: parts A and B
 * day 15: parts A and B
-* day 16: nothing
+* day 16: part A
 * day 17: nothing
 * day 18: nothing
 * day 19: nothing
