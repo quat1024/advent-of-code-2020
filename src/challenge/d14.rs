@@ -34,7 +34,7 @@ impl Challenge for Challenge14 {
                     })
                     .fold(0, |a, b| a | b);
 
-                println!("mask_mask: {:#036b}, mask: {:#036b}", mask_mask, mask);
+                //println!("mask_mask: {:#036b}, mask: {:#036b}", mask_mask, mask);
             } else if let Some(rest) = line.strip_prefix("mem[") {
                 let mut split = rest.split("] = "); //jank
                 let addr = split.next().unwrap().parse::<u64>().unwrap();
@@ -50,45 +50,52 @@ impl Challenge for Challenge14 {
     }
 
     fn part_b(&self, input: String) -> Result<String, ChallengeErr> {
-        //STILL doesn't work, i'm busy on day 15 rn :)
-
         let mut mem: HashMap<u64, u64> = HashMap::new();
-
-        enum MaskBit {
-            Passthrough,
-            One,
-            Floating,
-        }
-
-        //left side of this thing is the high bits
-        let mut mask: Vec<MaskBit> = Vec::with_capacity(36);
+        
+        let mut masks: Vec<u64> = Vec::new();
+        let mut mask_show_through: u64 = 0;
 
         for line in input.lines() {
             if let Some(mask_str) = line.strip_prefix("mask = ") {
-                mask.clear();
-                mask.extend(mask_str.chars().map(|ch| match ch {
-                    '0' => MaskBit::Passthrough,
-                    '1' => MaskBit::One,
-                    'X' => MaskBit::Floating,
-                    _ => panic!(),
-                }));
-                assert_eq!(mask.len(), 36);
+                let chars = mask_str.chars().collect::<Vec<_>>();
+                masks.clear();
+                masks.push(0);
+                mask_show_through = 0;
+                
+                for char_idx in 0..=35 {
+                    let ch = chars[char_idx];
+                    let bit = (1 << 35) >> char_idx;
+                    match ch {
+                        '0' => (),
+                        '1' => masks.iter_mut().for_each(|m| *m |= bit),
+                        'X' => {    
+                            let mut masks_copy = masks.clone();
+                            masks_copy.iter_mut().for_each(|m| *m |= bit);
+                            masks.extend(masks_copy);
+                            
+                            mask_show_through |= bit;
+                        },
+                        _ => panic!()
+                    }
+                }
+                
             } else if let Some(rest) = line.strip_prefix("mem[") {
                 let mut split = rest.split("] = ");
                 let base_addr = split.next().unwrap().parse::<u64>().unwrap();
                 let value = split.next().unwrap().parse::<u64>().unwrap();
 
-                let mut unfloating_addr: u64 = 0;
-                for idx in 0..=35 {
-                    match mask[idx] {
-                        MaskBit::Passthrough => unfloating_addr |= ((1 << 35) >> idx) & base_addr,
-                        MaskBit::One => unfloating_addr |= (1 << 35) >> idx,
-                        _ => (),
-                    }
+                //println!("base_addr: {:#036b}", base_addr);
+                for mask in masks.iter() {
+                    let a = mask & mask_show_through;
+                    let b = (mask | base_addr) & !(mask_show_through);
+                    let masked_addr = a | b;
+                    
+                    //println!("masked:    {:#036b}, ({})", masked_addr, masked_addr);
+                    mem.insert(masked_addr, value);
                 }
             }
         }
 
-        unimplemented!()
+        Ok(mem.values().sum::<u64>().to_string())
     }
 }

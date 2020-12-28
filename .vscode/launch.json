@@ -16,7 +16,7 @@
                     "kind": "bin"
                 }
             },
-            "args": [],
+            "args": ["14"],
             "sourceLanguages": [ "rust" ],
             "cwd": "${workspaceFolder}"
         }
